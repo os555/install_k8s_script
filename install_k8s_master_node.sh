@@ -14,6 +14,10 @@ sudo groupadd docker
 sudo usermod -aG docker $USER
 sudo systemctl enable docker
 
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
 #sudo apt-get update && apt-get install -y apt-transport-https curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list'
@@ -23,8 +27,9 @@ sysctl net.bridge.bridge-nf-call-iptables=1
 
 
 #INSTALL SDN
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel-rbac.yml
+
 kubeadm init --apiserver-advertise-address=0.0.0.0 --pod-network-cidr=10.244.0.0/16 
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel-rbac.yml
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
 #Copy config for Cluster
