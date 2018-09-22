@@ -1,2 +1,3 @@
-# install_k8s_script
-Shell script to automate install k8s
+#Automate Shell script to install k8s script on Ubuntu 18.04 Single master node
+
+Automate Shell script to install k8s script on Ubuntu 18.04 Single master node
