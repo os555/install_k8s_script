@@ -1,3 +1,8 @@
+#This shell script will help you to automate install k8s (kubernetes) on ubuntu 18.04 bionic with master node
+# Credit https://github.com/smjtheoff/k8s-install
+
+
+
 sudo apt-get update && apt-get upgrade -y
 sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -26,10 +31,19 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sysctl net.bridge.bridge-nf-call-iptables=1
 
 
+
+sleep 5s
 #INSTALL SDN
 
 kubeadm init --apiserver-advertise-address=0.0.0.0 --pod-network-cidr=10.244.0.0/16 
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel-rbac.yml
+
+echo "Starting.............................."
+sleep 10s
+
+#Flannel  is related to kube-system if coredns is not runnig find new flannel version  
+#kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.8.0/Documentation/kube-flannel-rbac.yml
+#kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/k8s-manifests/kube-flannel-rbac.yml
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/c5d10c8/Documentation/kube-flannel.yml
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
 #Copy config for Cluster
